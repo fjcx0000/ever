@@ -2,48 +2,57 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
-use App\Models\Tasks;
-use App\Models\Settings;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
 use Gate;
 use Datatables;
 use Carbon;
-use PHPZen\LaravelRbac\Traits\Rbac;
-use App\Models\Role;
 use Auth;
-use Illuminate\Support\Facades\Input;
-use App\Models\Client;
-use App\Models\Department;
 use DB;
 
+/**
+ * Class UserRepository
+ * @package App\Repositories\User
+ */
 class UserRepository implements UserRepositoryContract
 {
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function find($id)
     {
         return User::findOrFail($id);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllUsers()
     {
         return User::all();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllUsersWithDepartments()
     {
-        return  User::select(array('users.name', 'users.id',
-                DB::raw('CONCAT(users.name, " (", departments.name, ")") AS full_name')))
+        return  User::select(['users.name', 'users.id',
+                DB::raw('CONCAT(users.name, " (", departments.name, ")") AS full_name')])
         ->join('department_user', 'users.id', '=', 'department_user.user_id')
         ->join('departments', 'department_user.department_id', '=', 'departments.id')
         ->pluck('full_name', 'id');
     }
 
-
-
+    /**
+     * @param $requestData
+     * @return static
+     */
     public function create($requestData)
     {
-        $settings = Settings::first();
+        $settings = Setting::first();
         $password =  bcrypt($requestData->password);
         $role = $requestData->roles;
         $department = $requestData->departments;
@@ -53,7 +62,7 @@ class UserRepository implements UserRepositoryContract
             if (!is_dir(public_path(). '/images/'. $companyname)) {
                 mkdir(public_path(). '/images/'. $companyname, 0777, true);
             }
-            $settings = Settings::findOrFail(1);
+            $settings = Setting::findOrFail(1);
             $file =  $requestData->file('image_path');
 
             $destinationPath = public_path(). '/images/'. $companyname;
@@ -75,9 +84,14 @@ class UserRepository implements UserRepositoryContract
         return $user;
     }
 
+    /**
+     * @param $id
+     * @param $requestData
+     * @return mixed
+     */
     public function update($id, $requestData)
     {
-        $settings = Settings::first();
+        $settings = Setting::first();
         $companyname = $settings->company;
         $user = User::findorFail($id);
         $password = bcrypt($requestData->password);
@@ -85,7 +99,7 @@ class UserRepository implements UserRepositoryContract
         $department = $requestData->departments;
 
         if ($requestData->hasFile('image_path')) {
-            $settings = Settings::findOrFail(1);
+            $settings = Setting::findOrFail(1);
             $companyname = $settings->company;
             $file =  $requestData->file('image_path');
 
@@ -115,6 +129,10 @@ class UserRepository implements UserRepositoryContract
         return $user;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function destroy($id)
     {
         if ($id == 1) {

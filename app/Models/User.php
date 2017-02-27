@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-
 use Fenos\Notifynder\Notifable;
 use Illuminate\Notifications\Notifiable;
 use Cache;
@@ -34,56 +33,30 @@ class User extends Authenticatable
      */
     protected $dates = ['trial_ends_at', 'subscription_ends_at'];
     protected $hidden = ['password', 'password_confirmation', 'remember_token'];
-    
 
-    protected $primaryKey ='id';
 
-    public function tasksAssign()
+    protected $primaryKey = 'id';
+
+    public function tasks()
     {
-        return $this->hasMany(Tasks::class, 'fk_user_id_assign', 'id')
-        ->where('status', 1)
-        ->orderBy('deadline', 'asc');
-    }
-    public function tasksCreated()
-    {
-        return $this->hasMany(Tasks::class, 'fk_user_id_created', 'id')->limit(10);
+        return $this->hasMany(Task::class, 'user_assigned_id', 'id');
     }
 
-    public function tasksCompleted()
+    public function leads()
     {
-        return $this->hasMany(Tasks::class, 'fk_user_id_assign', 'id')->where('status', 2);
+        return $this->hasMany(Lead::class, 'user_id', 'id');
     }
     
-    public function tasksAll()
+    public function department()
     {
-        return $this->hasMany(Tasks::class, 'fk_user_id_assign', 'id')->whereIn('status', [1, 2]);
-    }
-    public function leadsAll()
-    {
-        return $this->hasMany(Leads::class, 'fk_user_id', 'id');
-    }
-    public function settings()
-    {
-        return $this->belongsTo(Settings::class);
-    }
-
-    public function clientsAssign()
-    {
-        return $this->hasMany(Client::class, 'fk_user_id', 'id');
+        return $this->belongsToMany(Department::class, 'department_user')->withPivot('department_id');
     }
 
     public function userRole()
     {
         return $this->hasOne(RoleUser::class, 'user_id', 'id');
     }
-    public function department()
-    {
-        return $this->belongsToMany(Department::class, 'department_user');
-    }
-    public function departmentOne()
-    {
-        return $this->belongsToMany(Department::class, 'department_user')->withPivot('Department_id');
-    }
+
     public function isOnline()
     {
         return Cache::has('user-is-online-' . $this->id);

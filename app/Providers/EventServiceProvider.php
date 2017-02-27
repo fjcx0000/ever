@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
          'App\Events\TaskAction' => [
             'App\Listeners\TaskActionNotify',
             'App\Listeners\TaskActionLog',
-        ],
+         ],
         'App\Events\LeadAction' => [
             'App\Listeners\LeadActionNotify',
             'App\Listeners\LeadActionLog',
@@ -30,8 +30,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @return void
+     * @internal param DispatcherContract $events
      */
     public function boot()
     {

@@ -14,13 +14,14 @@ class PermissionRole extends Model
 
     public function settings()
     {
-        return $this->belongsTo(Settings::class);
+        return $this->belongsTo(Setting::class);
     }
 
     public function employee()
     {
         return $this->hasMany(PermissionRole::class, 'role_id', 3);
     }
+
     public function hasperm()
     {
         return $this->hasMany(Permissions::class, 'Permission_role');

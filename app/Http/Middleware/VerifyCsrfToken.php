@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-   		'notifications/markread'
+        'notifications/markread',
+        'products/product_exists'
     ];
 }

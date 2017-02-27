@@ -7,6 +7,15 @@ return [
     'dashboard' => 'Dashboard',
 
     /**
+     * Product menu translation
+     */
+    'products' => [
+        'title' => 'Products',
+        'enquiry' => ' Enquiry Products',
+        'create' => 'Create Product',
+    ],
+
+    /**
      * Profile menu translation
      */
     'profile' => 'Profile',

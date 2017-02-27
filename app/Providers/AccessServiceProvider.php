@@ -24,6 +24,10 @@ class AccessServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
+            \App\Repositories\Product\ProductRepositoryContract::class,
+            \App\Repositories\Product\ProductRepository::class
+        );
+        $this->app->bind(
             \App\Repositories\User\UserRepositoryContract::class,
             \App\Repositories\User\UserRepository::class
         );
