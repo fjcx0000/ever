@@ -1,5 +1,4 @@
 <?php $__env->startSection('heading'); ?>
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -10,8 +9,10 @@
             <?php echo Form::text('product_id', null, ['class' => 'form-control']); ?>
 
         </div>
-        <div class="form-group col-sm-3 removeright group-align-bottom">
+        <div class="form-group col-sm-6 group-align-bottom">
             <?php echo Form::button("Enquiry", ['id' => 'search-form','class' => 'btn btn-primary']); ?>
+
+            <?php echo Form::button("Product Multi Select", ['id' => 'product-select','class' => 'btn btn-info']); ?>
 
         </div>
     </div>
@@ -46,6 +47,8 @@
         </thead>
     </table>
     </div>
+
+    <?php echo $__env->make('partials.productselect', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <?php $__env->stopSection(); ?>
 
