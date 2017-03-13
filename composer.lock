@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8d63145d16a81d44441842adfba93cb5",
-    "content-hash": "7b66c5c86ff8f0a8591b9dd822d09d03",
+    "hash": "04df19395ca422120de75d33162b179b",
+    "content-hash": "c3cbb317c7a9d952870291f37cc617d2",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -221,6 +221,59 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2016-05-11 00:36:29"
+        },
+        {
+            "name": "dts/ebay-sdk-php",
+            "version": "9.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davidtsadler/ebay-sdk-php.git",
+                "reference": "7495ccd6562388954dcb158757e401e765592d02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davidtsadler/ebay-sdk-php/zipball/7495ccd6562388954dcb158757e401e765592d02",
+                "reference": "7495ccd6562388954dcb158757e401e765592d02",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "guzzlehttp/promises": "^1.1",
+                "guzzlehttp/psr7": "~1.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DTS\\eBaySDK\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(Apache-2.0 and MIT)"
+            ],
+            "authors": [
+                {
+                    "name": "David T. Sadler",
+                    "email": "davidtsadler@googlemail.com",
+                    "homepage": "http://davidtsadler.com"
+                }
+            ],
+            "description": "An eBay SDK for PHP. Use the eBay API in your PHP projects.",
+            "homepage": "http://devbay.net/",
+            "keywords": [
+                "api",
+                "ebay",
+                "sdk"
+            ],
+            "time": "2017-03-06 09:48:13"
         },
         {
             "name": "guzzlehttp/guzzle",
