@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{{ asset(elixir('css/app.css')) }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 
 
 
@@ -110,22 +111,27 @@
 
     <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
         <div class="list-group panel">
-            <p class=" list-group-item" title=""><img src="{{url('images/flarepoint_logo.png')}}" alt=""></p>
+            <p class=" list-group-item" title=""><img src="{{url('images/logo1.jpg')}}" alt=""></p>
             <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
                         class="glyphicon glyphicon-dashboard"></i> @lang('menu.dashboard') </a>
+            <!--
             <a href="{{route('users.show', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
                         class="glyphicon glyphicon-user"></i> @lang('menu.profile') </a>
+            -->
 
 
             <a href="#products" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i class="glyphicon glyphicon-tag"></i> 产品管理 </a>
             <div class="collapse" id="products">
 
+                <!--
                 <a href="{{ route('products.index')}}" class="list-group-item childlist">@lang('menu.products.enquiry')</a>
-                <a href="{{ route('products.create')}}"
-                    class="list-group-item childlist">@lang('menu.products.create')</a>
-                <a href="{{ route('products.fileselect')}}" class="list-group-item childlist">File Upload</a>
+                <a href="{{ route('products.create')}}" class="list-group-item childlist">@lang('menu.products.create')</a>
+                -->
+                <a href="{{ route('products.fileselect')}}" class="list-group-item childlist">产品数据上传</a>
+                <a href="{{ route('products.shownosku')}}" class="list-group-item childlist">分配SKU</a>
             </div>
 
+            <!--
             <a href="#tasks" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
                         class="glyphicon glyphicon-tasks"></i> @lang('menu.tasks.title') </a>
             <div class="collapse" id="tasks">
@@ -164,6 +170,7 @@
                        class="list-group-item childlist">@lang('menu.departments.new')</a>
                 @endif
             </div>
+            -->
 
             @if(Entrust::hasRole('administrator'))
                 <a href="#settings" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
@@ -218,6 +225,8 @@
     <script type="text/javascript" src="{{ URL::asset('js/dropzone.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/jasny-bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/multiselect.js') }}"></script>
+    <script type=""text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js">0</script>
 
 @stack('scripts')
 </body>
