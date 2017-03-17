@@ -25,12 +25,24 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'products'], function () {
         Route::get('/enquiry', 'ProductsController@enquiryData')->name('products.enquiry');
-        Route::get('/data', 'ProductsController@anyData')->name('products.data');
+        Route::get('/data', 'ProductsController@itemData')->name('products.data');
         Route::post('/product_exists', 'ProductsController@productExists');
         Route::get('/fileselect','ProductsController@fileselect')->name('products.fileselect');
         Route::post('/fileupload','ProductsController@fileupload')->name('products.fileupload');
+        Route::post('/selectproducts', 'ProductsController@selectProducts');
+        Route::get('/show_nosku', 'productsController@showNoskuList')->name('products.shownosku');
+        Route::post('/get_nosku', 'productsController@getNoskuList')->name('products.getnosku');
+        Route::post('/allocatesku', 'productsController@allocateSku')->name('products.allocatesku');
+        Route::post('/exportskufile', 'productsController@exportSkuFile')->name('products.exportskufile');
     });
     Route::resource('products', 'ProductsController');
+
+    /**
+     * Ebay Operations
+     */
+    Route::group(['prefix' => 'ebay'],function() {
+        Route::get('/','EbayController@index')->name('ebay.index');
+    });
 
     /**
      * Users
