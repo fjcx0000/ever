@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'ebay'],function() {
         Route::get('/','EbayController@index')->name('ebay.index');
+        Route::get('/checksku','EbayController@checkSKU')->name('ebay.checksku');
     });
 
     /**

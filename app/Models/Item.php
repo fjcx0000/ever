@@ -10,11 +10,15 @@ class Item extends Model
         'sku_id',
         'product_id',
         'color_id',
-        'sizevalue_id'
+        'size_value'
     ];
 
     public function product()
     {
         return $this->belongsTo('App\Models\Product');
+    }
+    public function color()
+    {
+        return $this->belongsTo('App\Models\Color');
     }
 }

@@ -130,6 +130,10 @@
                 <a href="<?php echo e(route('products.fileselect')); ?>" class="list-group-item childlist">产品数据上传</a>
                 <a href="<?php echo e(route('products.shownosku')); ?>" class="list-group-item childlist">分配SKU</a>
             </div>
+            <a href="#ebay" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i class="glyphicon glyphicon-shopping-cart"></i> EBAY操作 </a>
+            <div class="collapse" id="ebay">
+                <a href="<?php echo e(route('ebay.index')); ?>" class="list-group-item childlist">Check SKU</a>
+            </div>
 
             <!--
             <a href="#tasks" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
