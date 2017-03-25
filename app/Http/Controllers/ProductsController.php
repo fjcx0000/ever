@@ -8,6 +8,8 @@ use Storage;
 use File;
 use Excel;
 use Session;
+use Carbon;
+use Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Repositories\Product\ProductRepositoryContract;
@@ -73,21 +75,11 @@ class ProductsController extends Controller
      * Make json respnse for datatables
      * @return mixed
      */
-    public function anyData(Request $request)
+    public function itemData(Request $request)
     {
         //$results = $this->products->listLatestProducts(10);
         $results = $this->products->enquiryProducts($request);
         return Datatables::of($results)
-           // ->where('product_id', '=', $request->product_id)
-            ->add_column('edit', '
-                <a href="{{ route(\'products.edit\', $product_id) }}" class="btn btn-success" >Edit</a>')
-            ->add_column('delete', '
-                <form action="{{ route(\'products.destroy\', $product_id) }}" method="POST">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
-
-            {{csrf_field()}}
-            </form>')
             ->make(true);
     }
 
@@ -126,5 +118,68 @@ class ProductsController extends Controller
     public function importProductList(ProductListImport $import)
     {
         $result = $import->get();
+    }
+    /**
+     * select products
+     * return select option list
+     */
+    public function selectProducts(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = $this->products->selectProducts($request->enqstr);
+            return view('products.selectoptions')->with('products',$products);
+        }
+    }
+    /**
+     * show nosku product list
+     */
+    public function showNoskuList(Request $request)
+    {
+        return view('products.skuallocation');
+    }
+    /**
+     *  get NoSku Product List
+     */
+    public function getNoskuList(Request $request)
+    {
+
+    }
+    /**
+     * allocate skus to items
+     */
+    public function allocateSku(Request $request)
+    {
+        $this->validate($request,[
+            'products'=>'required',
+        ]);
+        $products = explode(",", $request->products);
+        $number = $this->products->allocateSKU($products);
+        return $number." items were allocated with skus.";
+    }
+    /**
+     * export and download sku file
+     */
+    public function exportSkuFile(Request $request)
+    {
+        $skuData = $this->products->enquiryProducts($request);
+        $dt = Carbon::now();
+        $excelFile = 'sku_'.$dt->year.$dt->month.$dt->day.$dt->hour.$dt->minute.$dt->second;
+        Excel::create($excelFile,function($excel) use ($skuData) {
+            $excel->sheet('sheet1', function($sheet) use ($skuData) {
+                $skusArray[] = ['货号','颜色','尺寸','12位国际编码','条形码'];
+                foreach ($skuData as $sku) {
+                    $skusArray[] = [
+                        $sku->product_id,
+                        $sku->color_id,
+                        $sku->size_value,
+                        '0',
+                        $sku->sku_id
+                    ];
+                }
+                $sheet->fromArray($skusArray,null,'A1', false, false);
+            });
+        })->store('xlsx', storage_path('app/excel'))
+        ->download('xlsx');
+        //return $excelFile." has been created, ".$skuData->count()." records exported.";
     }
 }
