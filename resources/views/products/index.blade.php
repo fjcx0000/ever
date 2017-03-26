@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('heading')
-
 @stop
 
 @section('content')
@@ -11,8 +10,9 @@
                 Form::text('product_id', null, ['class' => 'form-control'])
             !!}
         </div>
-        <div class="form-group col-sm-3 removeright group-align-bottom">
+        <div class="form-group col-sm-6 group-align-bottom">
             {!! Form::button("Enquiry", ['id' => 'search-form','class' => 'btn btn-primary']) !!}
+            {!! Form::button("Product Multi Select", ['id' => 'product-select','class' => 'btn btn-info']) !!}
         </div>
     </div>
     <div class="row form-inline">
@@ -46,6 +46,8 @@
         </thead>
     </table>
     </div>
+
+    @include('partials.productselect')
 
 @stop
 

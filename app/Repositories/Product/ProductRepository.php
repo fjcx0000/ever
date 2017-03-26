@@ -37,30 +37,38 @@ class ProductRepository implements ProductRepositoryContract
      */
     public function enquiryProducts($requestData)
     {
-        $product_id = isset($requestData->product_id)?$requestData->product_id : null;
-        $cname = isset($requestData->cname)?$requestData->cname : null;
-        $ename = isset($requestData->ename)?$requestData->ename : null;
-        if (!$product_id && !$cname && !$ename) { //all data enquiry
-            $limitNum = env('RECORDS_DISPLAY_NUM');
-            return DB::table('products')
-            ->join('brands', 'brands.brand_id', '=', 'products.brand_id')
-            ->join('suppliers', 'suppliers.supplier_id', '=', 'products.supplier_id')
-            ->select('product_id', 'cname', 'ename', 'brands.description as brand', 'suppliers.supplier_name', 'products.updated_at')
-            ->orderBy('products.updated_at', 'desc')
-            ->limit($limitNum)
-            ->get();
-
+        if (empty($requestData->products)) {
+            return DB::table('items')
+                ->join('products', 'items.product_id', '=', 'products.product_id')
+                ->join('colors', 'items.color_id', '=', 'colors.color_id')
+                ->select('products.product_id as product_id',
+                    'products.ename as prd_ename',
+                    'products.cname as prd_cname',
+                    'colors.color_id as color_id',
+                    'colors.ename as color_ename',
+                    'colors.cname as color_cname',
+                    'size_value', 'sku_id')
+                ->where('products.product_id', 'like', '%')
+                ->orderBy('product_id','asc')
+                ->orderBy('color_id','asc')
+                ->orderBy('size_value','asc')
+                ->get();
         } else {
-            return DB::table('products')
-                ->join('brands', 'brands.brand_id', '=', 'products.brand_id')
-                ->join('suppliers', 'suppliers.supplier_id', '=', 'products.supplier_id')
-                ->select('product_id', 'cname', 'ename', 'brands.description as brand', 'suppliers.supplier_name', 'products.updated_at')
-                ->where([
-                    ['product_id', 'like', "$product_id%"],
-                    ['ename', 'like', "$ename%"],
-                    ['cname', 'like', "$cname%"]
-                ])
-                ->orderBy('products.updated_at', 'desc')
+            $products = explode(",", $requestData->products);
+            return DB::table('items')
+                ->join('products', 'items.product_id', '=', 'products.product_id')
+                ->join('colors', 'items.color_id', '=', 'colors.color_id')
+                ->select('products.product_id as product_id',
+                    'products.ename as prd_ename',
+                    'products.cname as prd_cname',
+                    'colors.color_id as color_id',
+                    'colors.ename as color_ename',
+                    'colors.cname as color_cname',
+                    'size_value', 'sku_id')
+                ->wherein('products.product_id', $products)
+                ->orderBy('product_id','asc')
+                ->orderBy('color_id','asc')
+                ->orderBy('size_value','asc')
                 ->get();
         }
     }
@@ -121,13 +129,14 @@ class ProductRepository implements ProductRepositoryContract
     {
         $clientFilename = $requestData->excel->getClientOriginalName();
         if (!$requestData->hasFile('excel')) {
-            Session()->flash('flash_message_warning', 'Excel File Not Found! '.$clientFilename);
+            Session()->flash('flash_message_warning', 'Excel File Not Found! ' . $clientFilename);
             return;
         }
         $path = $requestData->excel->getRealPath();
-        $data = Excel::selectSheetsByIndex(0)->load($path, function($reader){})->get();
-        if (empty($data) || $data->count()==0) {
-            Session()->flash('flash_message_warning', 'Excel File is empty! '.$clientFilename);
+        $data = Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
+        })->get();
+        if (empty($data) || $data->count() == 0) {
+            Session()->flash('flash_message_warning', 'Excel File is empty! ' . $clientFilename);
             return;
         }
         $timestamp = Carbon::now();
@@ -135,10 +144,10 @@ class ProductRepository implements ProductRepositoryContract
             if (!empty($value)) {
                 DB::insert('INSERT INTO skus (sku_id, isUsed,created_at,updated_at) VALUES(?,?,?,?)
                     ON DUPLICATE KEY UPDATE isUsed=?, updated_at=?',
-                    [$value['sku_id'],$value['isused'], $timestamp, $timestamp, $value['isused'], $timestamp]);
+                    [$value['sku_id'], $value['isused'], $timestamp, $timestamp, $value['isused'], $timestamp]);
             }
         }
-        Session()->flash('flash_message', 'Excel file imported successfully, '.$data->count().' records inserted.');
+        Session()->flash('flash_message', 'Excel file imported successfully, ' . $data->count() . ' records inserted.');
     }
 
     /**
@@ -148,13 +157,14 @@ class ProductRepository implements ProductRepositoryContract
     {
         $clientFilename = $requestData->excel->getClientOriginalName();
         if (!$requestData->hasFile('excel')) {
-            Session()->flash('flash_message_warning', 'Excel File Not Found! '.$clientFilename);
+            Session()->flash('flash_message_warning', 'Excel File Not Found! ' . $clientFilename);
             return;
         }
         $path = $requestData->excel->getRealPath();
-        $data = Excel::selectSheetsByIndex(0)->load($path, function($reader){})->get();
-        if (empty($data) || $data->count()==0) {
-            Session()->flash('flash_message_warning', 'Excel File is empty! '.$clientFilename);
+        $data = Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
+        })->get();
+        if (empty($data) || $data->count() == 0) {
+            Session()->flash('flash_message_warning', 'Excel File is empty! ' . $clientFilename);
             return;
         }
         $timestamp = Carbon::now();
@@ -165,8 +175,8 @@ class ProductRepository implements ProductRepositoryContract
             if (!empty($value)) {
                 DB::insert('INSERT INTO items (sku_id, product_id, color_id, size_value, created_at, updated_at)
                     VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE sku_id=?, updated_at=?',
-                    [$value['sku_id'],$value['product_id'], $value['color_id'], $value['size_value'],
-                    $timestamp, $timestamp, $value['sku_id'], $timestamp]);
+                    [$value['sku_id'], $value['product_id'], $value['color_id'], $value['size_value'],
+                        $timestamp, $timestamp, $value['sku_id'], $timestamp]);
             }
         }
         // insert into products
@@ -176,14 +186,80 @@ class ProductRepository implements ProductRepositoryContract
             if (!empty($value)) {
                 DB::insert('INSERT INTO products (product_id, ename, cname, supplier_id, created_at, updated_at)
                     VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE ename=?, cname=?, supplier_id=?, updated_at=?',
-                    [$value['product_id'],$value['product_ename'], $value['product_cname'], $value['supplier_id'],
+                    [$value['product_id'], $value['product_ename'], $value['product_cname'], $value['supplier_id'],
                         $timestamp, $timestamp,
                         $value['product_ename'], $value['product_cname'], $value['supplier_id'], $timestamp]);
             }
         }
 
         // insert into colors
-        Session()->flash('flash_message', 'Excel file imported successfully, inserted ['.$productNumber.'] products,
-                            ['.$itemNumber.'] items.');
+        $colorArray = $data->keyBy('color_id');
+        $colorNumber = $colorArray->count();
+        foreach ($colorArray as $key => $value) {
+            if (!empty($value)) {
+                DB::insert('INSERT INTO colors (color_id, ename, cname, created_at, updated_at)
+                    VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE ename=?, cname=?, updated_at=?',
+                    [$value['color_id'], $value['color_ename'], $value['color_cname'],
+                        $timestamp, $timestamp, $value['color_ename'], $value['color_cname'], $timestamp]);
+            }
+        }
+        Session()->flash('flash_message', 'Excel file imported successfully, inserted [' . $productNumber . '] products,
+                            [' . $itemNumber . '] items, [' . $colorNumber . '] colors.');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function selectProducts($enqStr)
+    {
+        return DB::table('products')
+            ->select('product_id', 'ename')
+            ->where('product_id', 'like', "%$enqStr%")
+            ->orwhere('cname', 'like', "%$enqStr%")
+            ->orwhere('ename', 'like', "%$enqStr%")
+            ->orderBy('product_id', 'asc')
+            ->get();
+    }
+
+    /**
+     * Allocate sku to items, and update sku record as used
+     * @param Array $products
+     * @return allocated sku number
+     */
+    public function allocateSKU($products)
+    {
+        //count sku number needed
+        $itemNum = 0;
+        DB::transaction(function() use (&$itemNum,$products) {
+            // get  updating number
+            $items = DB::table('items')
+                ->select('id')
+                ->wherein('product_id', $products)
+                ->wherenull('sku_id')
+                ->get();
+            $itemNum = $items->count();
+            // get skus
+            $skus = DB::table('skus')
+                ->select('sku_id')
+                ->where('isUsed','=','0')
+                ->limit($itemNum)
+                ->get();
+            $skuArray = $skus->pluck('sku_id')->all();
+            $tmpCursor = 0;
+            // update items with sku
+            foreach($items as $item) {
+                DB::table('items')
+                    ->where('id','=',$item->id)
+                    ->update(['sku_id'=>$skuArray[$tmpCursor]]);
+                $tmpCursor++;
+            }
+            // update skus isused field
+            DB::table('skus')
+                ->wherein('sku_id',$skuArray)
+                ->update(['isUsed'=>'1']);
+
+        });
+
+        return $itemNum;
     }
 }

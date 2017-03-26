@@ -20,4 +20,9 @@ interface ProductRepositoryContract
     public function importSKU($requestData);
 
     public function importProduct($requestData);
+
+    public function selectProducts($enqStr);
+
+    public function allocateSKU($products);
+
 }
