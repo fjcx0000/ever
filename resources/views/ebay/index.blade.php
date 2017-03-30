@@ -50,7 +50,7 @@
                 url: '{!! route('ebay.checksku') !!}',
 
                 data: function(d) {
-                    d.itemID = $('#item_id').val();
+                    d.itemID = $('#item_id').val().trim();
                 },
             },
             columns: [

@@ -89,7 +89,7 @@ class EbayController extends Controller
                     $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">货号错误</span>';
                 } elseif (stripos($ebayColor, $erpItem->color->ename) === false) {
                     $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">颜色错误</span>';
-                } elseif (stripos($ebaySize, $erpItem->size_value) === false ) {
+                } elseif (stripos($ebaySize, $this->convertSizevalue($erpItem->size_value)) === false ) {
                     $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">尺码错误</span>';
                 }
 
@@ -100,8 +100,8 @@ class EbayController extends Controller
                     'ebay_size' => isset($ebaySize) ? $ebaySize : NULL,
                     'ebay_sku' => $ebaySKU,
                     'product_id' => $item->SKU,
-                    'color_ename' => isset($erpItem) ? NULL : $erpItem->color->ename,
-                    'size_value' => isset($erpItem) ? NULL : $erpItem->size_value,
+                    'color_ename' => is_null($erpItem) ? NULL : $erpItem->color->ename,
+                    'size_value' => is_null($erpItem) ? NULL : $erpItem->size_value,
                     'check_result' => $checkResult
                 ]);
             }
@@ -158,7 +158,7 @@ class EbayController extends Controller
                             $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">货号错误</span>';
                         } elseif (stripos($ebayColor, $erpItem->color->ename) === false) {
                             $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">颜色错误</span>';
-                        } elseif (stripos($ebaySize, $erpItem->size_value) === false ) {
+                        } elseif (stripos($ebaySize, $this->convertSizevalue($erpItem->size_value)) === false ) {
                             $checkResult = '<span class="bg-danger glyphicon glyphicon-remove">尺码错误</span>';
                         }
 
@@ -179,5 +179,27 @@ class EbayController extends Controller
             $pageNum ++;
         } while(isset($ebayResponse->ActiveList) && $pageNum <= $ebayResponse->ActiveList->PaginationResult->TotalNumberOfPages);
         return $ebayCollection;
+    }
+    private function convertSizevalue($sizevalue)
+    {
+        $sizeTable = [
+            'L4' => '35',
+            'L5' => '36',
+            'L6' => '37',
+            'L7' => '38',
+            'L8' => '39',
+            'L9' => '40',
+            'L10' => '41',
+            'L11' => '42',
+            'L12' => '43',
+            'L13' => '44',
+            '4\5' => '23',
+            '6\7' => '25',
+            '8\9' => '27',
+            '10\11' => '29',
+            '12\13' => '31',
+            '1\2' => '33'
+        ];
+        return isset($sizeTable[$sizevalue]) ? $sizeTable[$sizevalue] : $sizevalue ;
     }
 }
