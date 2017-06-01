@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset(elixir('css/app.css')) }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    @stack('links')
 
 
 
@@ -133,6 +134,15 @@
             <a href="#ebay" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i class="glyphicon glyphicon-shopping-cart"></i> EBAY操作 </a>
             <div class="collapse" id="ebay">
                 <a href="{{ route('ebay.index')}}" class="list-group-item childlist">Check SKU</a>
+            </div>
+
+            <a href="#storages" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="fa fa-object-group"></i>仓库管理</a>
+            <div class="collapse" id="storages">
+                <a href="{{ route('storages.locindex') }}" class="list-group-item childlist">库存位置管理</a>
+                <a href="{{ route('storages.itemindex') }}" class="list-group-item childlist">存储物品管理</a>
+                <a href="{{ route('storages.locitemindex') }}" class="list-group-item childlist">库位使用管理</a>
+                <a href="#" class="list-group-item childlist">库位使用查询</a>
             </div>
 
             <!--

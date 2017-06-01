@@ -25,4 +25,6 @@ interface ProductRepositoryContract
 
     public function allocateSKU($products);
 
+    public function getProductDetail($product_id);
+
 }

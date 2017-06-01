@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'products'], function () {
         Route::get('/enquiry', 'ProductsController@enquiryData')->name('products.enquiry');
         Route::get('/data', 'ProductsController@itemData')->name('products.data');
+        Route::get('/productdetails', 'ProductsController@getProductDetails')->name('products.productdetails');
         Route::post('/product_exists', 'ProductsController@productExists');
         Route::get('/fileselect','ProductsController@fileselect')->name('products.fileselect');
         Route::post('/fileupload','ProductsController@fileupload')->name('products.fileupload');
@@ -36,6 +37,31 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/exportskufile', 'productsController@exportSkuFile')->name('products.exportskufile');
     });
     Route::resource('products', 'ProductsController');
+
+    /**
+     * Storage
+     */
+    Route::group(['prefix' => 'storages'], function() {
+        Route::get('/locindex', 'StorageController@locIndex')->name('storages.locindex');
+        Route::post('/addlocation', 'StorageController@addLocation')->name('storages.addlocation');
+        Route::get('/getlocations', 'StorageController@getLocations')->name('storages.getlocations');
+        Route::post('/dellocation', 'StorageController@delLocation')->name('storages.dellocation');
+        Route::post('/uploadlocfile', 'StorageController@uploadLocationFile')->name('storages.uploadlocfile');
+
+        Route::get('/itemindex', 'StorageController@itemIndex')->name('storages.itemindex');
+        Route::post('/additem', 'StorageController@addItem')->name('storages.additem');
+        Route::get('/getitems', 'StorageController@getItems')->name('storages.getitems');
+        Route::post('/delitem', 'StorageController@delItem')->name('storages.delitem');
+        Route::get('/importproductdata', 'StorageController@importProductData')->name('storages.importproductdata');
+
+
+        Route::get('/locitemindex', 'StorageController@locitemIndex')->name('storages.locitemindex');
+        Route::get('/searchlocations', 'StorageController@searchLocations')->name('storages.searchlocations');
+        Route::get('/searchitems', 'StorageController@searchItems')->name('storages.searchitems');
+        Route::post('/addrelation', 'StorageController@addRelation')->name('storages.addrelation');
+        Route::get('/getrelations', 'StorageController@getRelations')->name('storages.getrelations');
+        Route::post('/delrelation', 'StorageController@delRelation')->name('storages.delrelation');
+    });
 
     /**
      * Ebay Operations

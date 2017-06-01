@@ -160,6 +160,7 @@ class ProductRepository implements ProductRepositoryContract
             Session()->flash('flash_message_warning', 'Excel File Not Found! ' . $clientFilename);
             return;
         }
+        //echo date('y-m-d h:i:s',time()). " Start  loading excel file ...<br/>";
         $path = $requestData->excel->getRealPath();
         $data = Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
         })->get();
@@ -170,15 +171,20 @@ class ProductRepository implements ProductRepositoryContract
         $timestamp = Carbon::now();
         // insert into items
         $itemNumber = $data->count();
+        //echo date('y-m-d h:i:s',time()). " Start insert into items number = [".$itemNumber."] ...<br/>";
 
+        $cntTmp = 0;
         foreach ($data->toArray() as $key => $value) {
             if (!empty($value)) {
+                $cntTmp++;
                 DB::insert('INSERT INTO items (sku_id, product_id, color_id, size_value, created_at, updated_at)
                     VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE sku_id=?, updated_at=?',
                     [$value['sku_id'], $value['product_id'], $value['color_id'], $value['size_value'],
                         $timestamp, $timestamp, $value['sku_id'], $timestamp]);
+                //echo date('y-m-d h:i:s',time()). " No. ".$cntTmp." insert into items ok ...<br/>";
             }
         }
+        //echo date('y-m-d h:i:s',time()). " Start insert into products ...<br/>";
         // insert into products
         $productArray = $data->keyBy('product_id');
         $productNumber = $productArray->count();
@@ -192,6 +198,7 @@ class ProductRepository implements ProductRepositoryContract
             }
         }
 
+        //echo date('y-m-d h:i:s',time()). " Start insert into colors ...<br/>";
         // insert into colors
         $colorArray = $data->keyBy('color_id');
         $colorNumber = $colorArray->count();
@@ -261,5 +268,34 @@ class ProductRepository implements ProductRepositoryContract
         });
 
         return $itemNum;
+    }
+    public function getProductDetail($product_id)
+    {
+       $details = array();
+       $ename = DB::table('products')
+           ->select('ename')
+           ->where('product_id', '=', $product_id)
+           ->first();
+       $details["ename"] = $ename->ename;
+       if (empty($details["ename"])) {
+           return null;
+       }
+       $colors = DB::table('items')
+           ->join('colors', 'items.color_id', '=', 'colors.color_id')
+           ->select('items.color_id', 'colors.ename as color')
+           ->where('product_id', '=', $product_id)
+           ->distinct()
+           ->get();
+       $details["colors"] = $colors->toArray();
+
+       $sizes = DB::table('items')
+            ->select('size_value')
+            ->where('product_id', '=', $product_id)
+            ->distinct()
+            ->get();
+       $details["sizes"] = $sizes->pluck('size_value')->all();
+
+       return $details;
+
     }
 }

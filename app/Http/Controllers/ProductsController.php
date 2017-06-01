@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Excel\ProductListImport;
 use Datatables;
+use Illuminate\Http\JsonResponse;
 use Storage;
 use File;
 use Excel;
@@ -181,5 +182,20 @@ class ProductsController extends Controller
         })->store('xlsx', storage_path('app/excel'))
         ->download('xlsx');
         //return $excelFile." has been created, ".$skuData->count()." records exported.";
+    }
+    /**
+     * enquiry products details, response JSON
+     */
+    public function getProductDetails(Request $request)
+    {
+        $this->validate($request,[
+            'product_id'=>'required',
+        ]);
+        $details = $this->products->getProductDetail($request->product_id);
+        if (empty($details)) {
+            return new JsonResponse("Record not found",404);
+        } else {
+            return new JsonResponse($details);
+        }
     }
 }
