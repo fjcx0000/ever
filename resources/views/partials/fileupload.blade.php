@@ -30,6 +30,9 @@
 <script type="text/javascript" src="{{ URL::asset('js/jquery.fileupload.js') }}"></script>
 <script>
     $(function() {
+        $('#fileupload-popup').on('show.bs.modal', function (e) {
+            $("#loading").text("");
+        });
         $('#uploadfile').fileupload({
             dataType: 'json',
             add: function (e, data) {

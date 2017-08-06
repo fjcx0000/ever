@@ -7,6 +7,7 @@
     <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('css/dropzone.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('css/bootstrapDatepickr-1.0.0.css') }}" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="{{ asset(elixir('css/app.css')) }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -145,6 +146,13 @@
                 <a href="#" class="list-group-item childlist">库位使用查询</a>
             </div>
 
+            <a href="#smartchannel" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="fa fa-object-group"></i>Smart Channel处理</a>
+            <div class="collapse" id="smartchannel">
+                <a href="{{ route('smartchannel.orderindex') }}" class="list-group-item childlist">订单处理</a>
+                <a href="{{ route('smartchannel.paymentindex') }}" class="list-group-item childlist">账单处理</a>
+            </div>
+
             <!--
             <a href="#tasks" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
                         class="glyphicon glyphicon-tasks"></i> @lang('menu.tasks.title') </a>
@@ -240,6 +248,7 @@
     <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/jasny-bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/bootstrapDatepickr-1.0.0.js') }}"></script>
     <script type=""text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js">0</script>
 
 @stack('scripts')

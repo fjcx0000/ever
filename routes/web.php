@@ -64,6 +64,24 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     /**
+     * Smart Channel Service
+     */
+    Route::group(['prefix' => 'smartchannel'],function(){
+        Route::get('/orderindex', 'SmartChannelController@orderIndex')->name('smartchannel.orderindex');
+        Route::get('/getorders', 'SmartChannelController@getOrders')->name('smartchannel.getorders');
+        Route::get('/getorderdetails', 'SmartChannelController@getOrderDetails')->name('smartchannel.getorderdetails');
+        Route::post('/importfile', 'SmartChannelController@importFile')->name('smartchannel.importfile');
+        Route::post('/updateorderfield', 'SmartChannelController@updateOrderField')->name('smartchannel.updateorderfield');
+        Route::post('/removeorders', 'SmartChannelController@removeOrders')->name('smartchannel.removeorders');
+        Route::get('/paymentindex', 'SmartChannelController@paymentIndex')->name('smartchannel.paymentindex');
+        Route::get('/getpayfiles', 'SmartChannelController@getPayfiles')->name('smartchannel.getpayfiles');
+        Route::post('/updatepayfilefield', 'SmartChannelController@updatePayfileField')->name('smartchannel.updatepayfilefield');
+        Route::get('/getpaylist', 'SmartChannelController@getPaylist')->name('smartchannel.getpaylist');
+        Route::post('/removepayfiles', 'SmartChannelController@removePayfiles')->name('smartchannel.removepayfiles');
+        Route::post('/checkpayrecords', 'SmartChannelController@checkPayrecords')->name('smartchannel.checkpayrecords');
+    });
+
+    /**
      * Ebay Operations
      */
     Route::group(['prefix' => 'ebay'],function() {
@@ -165,4 +183,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/newitem/{id}', 'InvoicesController@newItem')->name('invoice.new.item');
     });
         Route::resource('invoices', 'InvoicesController');
+});
+
+/**
+ * Mobile
+ */
+Route::group(['prefix' => 'mobile'],function() {
+    Route::get('/','MobileController@index')->name('mobile.index');
+    Route::get('/getproducts','MobileController@getProducts')->name('mobile.getproducts');
+    Route::get('/getstock','MobileController@getStock')->name('mobile.getstock');
 });
