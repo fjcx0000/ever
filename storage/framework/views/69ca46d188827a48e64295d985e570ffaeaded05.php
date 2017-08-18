@@ -1,6 +1,4 @@
-@extends('layouts.mobile')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div data-role="page" id="mainPage" data-theme="a">
         <div data-role="header">
             <h1>库存数据查询</h1>
@@ -35,13 +33,13 @@
             </ul>
         </div>
     </div>
-@stop
+<?php $__env->stopSection(); ?>
 
-@push('links')
-@endpush
-@push('scripts')
-    <script type="text/javascript" src="{{ URL::asset('js/autoComplete.js/jqm.autoComplete-1.5.2-min.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('js/autoComplete.js/code.js') }}"></script>
+<?php $__env->startPush('links'); ?>
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('scripts'); ?>
+    <script type="text/javascript" src="<?php echo e(URL::asset('js/autoComplete.js/jqm.autoComplete-1.5.2-min.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo e(URL::asset('js/autoComplete.js/code.js')); ?>"></script>
 
     <script>
         $("#mainPage").bind("pageshow", function(e) {
@@ -53,7 +51,7 @@
 
             $("#searchField").autocomplete({
                 target: $('#suggestions'),
-                source: '{{ route("mobile.getproducts") }}',
+                source: '<?php echo e(route("mobile.getproducts")); ?>',
                 minLength: 3,
                 callback: function(e) {
                     var $a = $(e.currentTarget);
@@ -61,7 +59,7 @@
                     $('#searchField').autocomplete('clear');
                     $goodsno = $a.text().substring(0,$a.text().indexOf('-'));
                     $.ajax({
-                        url: '{{ route('mobile.getcolors') }}',
+                        url: '<?php echo e(route('mobile.getcolors')); ?>',
                         type: "get",
                         data: {'goodsno':$goodsno},
                         success: function(data) {
@@ -80,7 +78,7 @@
                 $goodsno = $('#searchField').val().substring(0,$('#searchField').val().indexOf('-'));
                 $colorcode = $('#color').val();
                 $.ajax({
-                    url: '{{ route('mobile.getsizes') }}',
+                    url: '<?php echo e(route('mobile.getsizes')); ?>',
                     type: "get",
                     data: {'goodsno':$goodsno, 'colorcode':$colorcode},
                     success: function(data) {
@@ -97,7 +95,7 @@
             });
             $('#submit').on('click',function(event) {
                 $.ajax({
-                    url: '{{ route('mobile.getstock') }}',
+                    url: '<?php echo e(route('mobile.getstock')); ?>',
                     type: "get",
                     data: {'goodsno':$('#searchField').val().substring(0,$('#searchField').val().indexOf('-')),
                         'colorcode':$('#color').val(), 'barcode': $('#size').val()},
@@ -154,4 +152,6 @@
         }
 
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.mobile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

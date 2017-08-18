@@ -28,8 +28,7 @@ class SmartchannelRepository implements SmartchannelRepositoryContract
         $products = empty($reqData->product_id)? '' : explode(",", $reqData->product_id);
         $despatchVal = [
             'TRUE' => 1,
-            'FALSE' => 0,
-        ];
+            'FALSE' => 0, ];
         $checkVal = [
             'N' => 0,
             '1' => 1,

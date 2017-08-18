@@ -192,4 +192,6 @@ Route::group(['prefix' => 'mobile'],function() {
     Route::get('/','MobileController@index')->name('mobile.index');
     Route::get('/getproducts','MobileController@getProducts')->name('mobile.getproducts');
     Route::get('/getstock','MobileController@getStock')->name('mobile.getstock');
+    Route::get('/getcolors','MobileController@getColors')->name('mobile.getcolors');
+    Route::get('/getsizes','MobileController@getSizes')->name('mobile.getsizes');
 });

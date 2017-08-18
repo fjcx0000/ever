@@ -150,6 +150,7 @@ return [
         Illuminate\Notifications\NotificationServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Oci8\Oci8ServiceProvider::class,
      
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
@@ -164,8 +165,8 @@ return [
         App\Providers\AccessServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
-        Jenssegers\Agent\AgentServiceProvider::class,
-       
+        App\Providers\OracleServiceProvider::class,
+
 
     ],
 
@@ -223,6 +224,7 @@ return [
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Oracle'    => App\Facades\Oracle::class,
     ],
 
 ];
