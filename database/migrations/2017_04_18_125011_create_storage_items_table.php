@@ -15,11 +15,17 @@ class CreateStorageItemsTable extends Migration
     {
         Schema::create('storage_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('product_id');
-            $table->string('color_id');
-            $table->string('size_value');
+            $table->integer('location_id');
+            $table->string('storage_guid');
+            $table->string('goodsno');
+            $table->string('goodsname');
+            $table->string('goods_guid');
+            $table->string('colorcode')->nullable();
+            $table->string('colordesc')->nullable();
+            $table->string('color_guid')->nullable();
+            $table->string('comments')->nullable();
             $table->timestamps();
-            $table->unique(array('product_id', 'color_id', 'size_value'));
+            $table->unique(array('location_id','goodsno','colorcode'));
         });
     }
 

@@ -194,4 +194,18 @@ Route::group(['prefix' => 'mobile'],function() {
     Route::get('/getstock','MobileController@getStock')->name('mobile.getstock');
     Route::get('/getcolors','MobileController@getColors')->name('mobile.getcolors');
     Route::get('/getsizes','MobileController@getSizes')->name('mobile.getsizes');
+    Route::get('/study','MobileController@study')->name('mobile.study');
+});
+/**
+ * Mobile Storage
+ */
+Route::group(['prefix' => 'mstorage'], function() {
+    Route::get('/', 'MStorageController@index')->name('mstorage.index');
+    Route::get('/getfirstloc', 'MStorageController@getFirstLocdata')->name('mstorage.firstloc');
+    Route::get('/getnextloc', 'MStorageController@getNextLocdata')->name('mstorage.nextloc');
+    Route::get('/getarealist', 'MStorageController@getArealist')->name('mstorage.arealist');
+    Route::get('/getlinelist', 'MStorageController@getLinelist')->name('mstorage.linelist');
+    Route::get('/getunitlist', 'MStorageController@getUnitlist')->name('mstorage.unitlist');
+    Route::get('/getlocdata', 'MStorageController@getLocdata')->name('mstorage.locdata');
+    Route::post('/deleteitem', 'MStorageController@deleteItem')->name('mstorage.deleteitem');
 });

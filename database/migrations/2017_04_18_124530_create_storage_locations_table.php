@@ -19,8 +19,11 @@ class CreateStorageLocationsTable extends Migration
             $table->string('line');
             $table->string('unit');
             $table->string('level')->nullable();
+            $table->string('storage_guid');
+            $table->string('storageno');
             $table->timestamps();
-            $table->unique(array('area','line','part','level'));
+            $table->unique(array('area','line','unit','level'));
+            $table->unique('storage_guid');
         });
     }
 

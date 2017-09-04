@@ -10,7 +10,7 @@ class StorageLocation extends Model
 
     public function items()
     {
-        return $this->belongsToMany('App\Models\StorageItem', 'items_locations', 'location_id', 'item_id');
+        return $this->hasMany('App\Models\StorageItem', 'location_id');
     }
 
 }

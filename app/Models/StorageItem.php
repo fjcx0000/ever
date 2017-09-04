@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SmartOrder extends Model
+class StorageItem extends Model
 {
-    protected $table = 'smartorders';
-    public function product()
+    protected $table = 'storage_items';
+    public function location()
     {
-        return $this->belongsTo('App\Models\Product', 'product_id');
-    }
-    public function color()
-    {
-        return $this->belongsTo('App\Models\Color', 'color_id');
+        return $this->belongsTo('App\Models\StorageLocation', 'location_id');
     }
 }

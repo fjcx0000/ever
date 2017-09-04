@@ -104,4 +104,8 @@ class MobileController extends Controller
             });
         return $groupStocks->all();
     }
+    public function study(Request $request)
+    {
+        return view('mobile.study');
+    }
 }
