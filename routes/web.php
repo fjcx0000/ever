@@ -195,6 +195,9 @@ Route::group(['prefix' => 'mobile'],function() {
     Route::get('/getcolors','MobileController@getColors')->name('mobile.getcolors');
     Route::get('/getsizes','MobileController@getSizes')->name('mobile.getsizes');
     Route::get('/study','MobileController@study')->name('mobile.study');
+
+    Route::get('/uploadfile', 'MobileController@uploadStorageFile')->name('mobile.uploadfile');
+    Route::post('/convertfile', 'MobileController@convertErpStorageFile')->name('mobile.convertfile');
 });
 /**
  * Mobile Storage
@@ -203,9 +206,20 @@ Route::group(['prefix' => 'mstorage'], function() {
     Route::get('/', 'MStorageController@index')->name('mstorage.index');
     Route::get('/getfirstloc', 'MStorageController@getFirstLocdata')->name('mstorage.firstloc');
     Route::get('/getnextloc', 'MStorageController@getNextLocdata')->name('mstorage.nextloc');
+    Route::get('/getprevloc', 'MStorageController@getPrevLocdata')->name('mstorage.prevloc');
     Route::get('/getarealist', 'MStorageController@getArealist')->name('mstorage.arealist');
     Route::get('/getlinelist', 'MStorageController@getLinelist')->name('mstorage.linelist');
     Route::get('/getunitlist', 'MStorageController@getUnitlist')->name('mstorage.unitlist');
     Route::get('/getlocdata', 'MStorageController@getLocdata')->name('mstorage.locdata');
+    Route::get('/getitemlocs', 'MStorageController@getItemLocations')->name('mstorage.itemlocs');
     Route::post('/deleteitem', 'MStorageController@deleteItem')->name('mstorage.deleteitem');
+    Route::post('/additem', 'MStorageController@addItem')->name('mstorage.additem');
+
+
+    Route::get('/erpoptions', 'MStorageController@erpOptionIndex')->name('mstorage.erpoptions');
+    Route::post('/erploadlocs', 'MStorageController@erpLoadLocs')->name('mstorage.erploadlocs');
+    Route::post('/erpupdateitems', 'MStorageController@erpUpdateItems')->name('mstorage.erpupdateitems');
+    Route::get('/erpcheckitems', 'MStorageController@erpCheckItems')->name('mstorage.erpcheckitems');
+
+
 });

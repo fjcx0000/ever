@@ -7,6 +7,8 @@ use Jenssegers\Agent\Agent;
 use Yajra\Oci8\Connectors\OracleConnector;
 use Yajra\Oci8\Oci8Connection;
 use Oracle;
+use Excel;
+use Carbon\Carbon;
 
 
 class MobileController extends Controller
@@ -14,7 +16,7 @@ class MobileController extends Controller
 
     private $sizeOrderList = [
         'L4','L5','L6','L7','L8','L9','L10','L11','L12','L13','L14','L15','L16',
-        '34','35','36','37','3','39','40','41','42','43','44','45','46',
+        '34','35','36','37','38','39','40','41','42','43','44','45','46',
         'XS','S','M','L','XL',
         '4\5','6\7','8\9','10\11','12\13','1\2'];
 
@@ -107,5 +109,53 @@ class MobileController extends Controller
     public function study(Request $request)
     {
         return view('mobile.study');
+    }
+    public function uploadStorageFile(Request $request)
+    {
+        return view('mobile.storagefile');
+    }
+    public function convertErpStorageFile(Request $request)
+    {
+        $this->validate($request,[
+            'excel'=>'required',
+        ]);
+
+        if (!$request->hasFile('excel')) {
+            return "Excel not exist";
+        }
+        $path = $request->excel->getRealPath();
+        $data = Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
+        })->get();
+        if (empty($data) || $data->count() == 0) {
+            return "Excel file is empty";
+        }
+        $erpStorages = array(['storageno']);
+        foreach ($data->toArray() as $key => $value) {
+            if (!empty($value)) {
+                $area = $value['area'];
+                $startLine = $value['startline'];
+                $endLine = $value['endline'];
+                $units = $value['units'];
+                for($i=$startLine; $i<=$endLine; $i++) {
+                    for ($j=1;$j<= $units; $j++) {
+                        $storageno1 = $area.str_pad($i,2,'0',STR_PAD_LEFT).'-'.$j;
+                        $storageno2 = $area.str_pad($i,2,'0',STR_PAD_LEFT).'-'.$j.'-2';
+                        $storageno3 = $area.str_pad($i,2,'0',STR_PAD_LEFT).'-'.$j.'-3';
+                        $erpStorages[] = [$storageno1];
+                        $erpStorages[] = [$storageno2];
+                        $erpStorages[] = [$storageno3];
+                    }
+                }
+            }
+        }
+
+        $excelFile = 'erp_storageno_list';
+        Excel::create($excelFile,function($excel) use ($erpStorages) {
+            $excel->sheet('sheet1', function($sheet) use ($erpStorages) {
+                $sheet->fromArray($erpStorages,null,'A1', false, false);
+            });
+        })->store('xlsx', storage_path('app/excel'))
+            ->download('xlsx');
+
     }
 }

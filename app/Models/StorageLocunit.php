@@ -9,4 +9,11 @@ class StorageLocunit extends Model
 {
     //
     protected $table = 'storage_loclist';
+    protected $fillable = [
+        'area',
+        'line',
+        'unit',
+        'levels',
+        'locname',
+    ];
 }

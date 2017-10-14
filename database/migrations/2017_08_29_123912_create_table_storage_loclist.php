@@ -22,7 +22,6 @@ class CreateTableStorageLoclist extends Migration
             $table->smallInteger('levels');
             $table->timestamps();
             $table->unique(array('area','line','unit'));
-            $table->unique('locname');
         });
     }
 

@@ -16,10 +16,12 @@ class CreateStoragegoodsErp extends Migration
         Schema::create('storagegoods_erp', function (Blueprint $table) {
             $table->increments('id');
             $table->string('storage_guid');
+            $table->string('storageno');
             $table->string('goods_guid');
+            $table->string('goodsno');
             $table->enum('status',['sync','new','invalid']);
             $table->timestamps();
-            $table->unique(array('storage_guid','goods_guid'));
+            $table->unique(['storage_guid','goods_guid']);
         });
     }
 

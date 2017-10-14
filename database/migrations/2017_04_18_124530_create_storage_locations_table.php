@@ -21,6 +21,7 @@ class CreateStorageLocationsTable extends Migration
             $table->string('level')->nullable();
             $table->string('storage_guid');
             $table->string('storageno');
+            $table->enum('status',['sync','new','invalid']);
             $table->timestamps();
             $table->unique(array('area','line','unit','level'));
             $table->unique('storage_guid');

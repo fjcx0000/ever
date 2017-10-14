@@ -1,11 +1,9 @@
-@extends('layouts.mobile')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div data-role="page" id="mainPage" data-theme="a">
         <div data-role="header" data-position="fixed">
-            <a href="{{ route('mobile.index') }}" data-ajax="false" class="ui-btn ui-btn-left ui-icon-info ui-btn-icon-left">库存查询</a>
+            <a href="<?php echo e(route('mobile.index')); ?>" data-ajax="false" class="ui-btn ui-btn-left ui-icon-info ui-btn-icon-left">库存查询</a>
             <h1>库位巡检</h1>
-            <a href="{{ route('mstorage.erpoptions') }}" data-ajax="false" class="ui-btn ui-btn-right ui-icon-grid ui-btn-icon-left">ERP操作</a>
+            <a href="<?php echo e(route('mstorage.erpoptions')); ?>" data-ajax="false" class="ui-btn ui-btn-right ui-icon-grid ui-btn-icon-left">ERP操作</a>
         </div>
         <div data-role="content">
             <h4>库存位置</h4>
@@ -113,17 +111,17 @@
             </div>
         </div>
     </div>
-@stop
+<?php $__env->stopSection(); ?>
 
-@push('links')
-@endpush
-@push('scripts')
-<script type="text/javascript" src="{{ URL::asset('js/autoComplete.js/jqm.autoComplete-1.5.2-min.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/autoComplete.js/code.js') }}"></script>
+<?php $__env->startPush('links'); ?>
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('scripts'); ?>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/autoComplete.js/jqm.autoComplete-1.5.2-min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(URL::asset('js/autoComplete.js/code.js')); ?>"></script>
 <script>
     $(document).on('pageinit', function(event){
         $.ajax({
-            url: '{{ route('mstorage.firstloc') }}',
+            url: '<?php echo e(route('mstorage.firstloc')); ?>',
             type: "get",
             success: function(data) {
                 loadLocdata(data);
@@ -132,7 +130,7 @@
     });
     $('#nextPosi').on('click',function(event) {
         $.ajax({
-            url: '{{ route('mstorage.nextloc') }}',
+            url: '<?php echo e(route('mstorage.nextloc')); ?>',
             type: "get",
             data: {'area':$('#area').val(), 'line':$('#line').val(), 'unit':$('#unit').val()},
             beforeSend: function () {
@@ -148,7 +146,7 @@
     });
     $('#prevPosi').on('click',function(event) {
         $.ajax({
-            url: '{{ route('mstorage.prevloc') }}',
+            url: '<?php echo e(route('mstorage.prevloc')); ?>',
             type: "get",
             data: {'area':$('#area').val(), 'line':$('#line').val(), 'unit':$('#unit').val()},
             beforeSend: function () {
@@ -172,7 +170,7 @@
         $('#unitinput').empty();
         $('#unitinput').selectmenu('refresh');
         $.ajax({
-            url: '{{ route('mstorage.arealist') }}',
+            url: '<?php echo e(route('mstorage.arealist')); ?>',
             type: "get",
             success: function(data) {
                 $('#areainput').empty();
@@ -187,7 +185,7 @@
     });
     $('#areainput').change(function(){
         $.ajax({
-            url: '{{ route('mstorage.linelist') }}',
+            url: '<?php echo e(route('mstorage.linelist')); ?>',
             type: "get",
             data: {'area': $('#areainput').val()},
             success: function(data) {
@@ -203,7 +201,7 @@
     });
     $('#lineinput').change(function(){
         $.ajax({
-            url: '{{ route('mstorage.unitlist') }}',
+            url: '<?php echo e(route('mstorage.unitlist')); ?>',
             type: "get",
             data: {'area': $('#areainput').val(), 'line': $('#lineinput').val()},
             success: function(data) {
@@ -220,7 +218,7 @@
 
     $("#searchField").autocomplete({
         target: $('#suggestions'),
-        source: '{{ route("mobile.getproducts") }}',
+        source: '<?php echo e(route("mobile.getproducts")); ?>',
         minLength: 3,
         callback: function(e) {
             var $a = $(e.currentTarget);
@@ -228,7 +226,7 @@
             $('#searchField').autocomplete('clear');
             $goodsno = getGoodsno($a.text());
             $.ajax({
-                url: '{{ route('mobile.getcolors') }}',
+                url: '<?php echo e(route('mobile.getcolors')); ?>',
                 type: "get",
                 data: {'goodsno':$goodsno},
                 success: function(data) {
@@ -260,8 +258,8 @@
 
     function submitAddItem() {
         $.ajax({
-            url: '{{ route('mstorage.additem') }}',
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: '<?php echo e(route('mstorage.additem')); ?>',
+            headers: { 'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>' },
             type: "post",
             data: {'goodsno':getGoodsno($('#searchField').val()),
                 'colorcode':$('#color').val(), 'barcode': $('#size').val(),
@@ -333,8 +331,8 @@
     function deleteitem()
     {
         $.ajax({
-            url: '{{ route('mstorage.deleteitem') }}',
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: '<?php echo e(route('mstorage.deleteitem')); ?>',
+            headers: { 'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>' },
             type: "post",
             data: {'id': $('#item-id').text()},
             success: function() {
@@ -352,7 +350,7 @@
     function refreshLocation()
     {
         $.ajax({
-            url: '{{ route('mstorage.locdata') }}',
+            url: '<?php echo e(route('mstorage.locdata')); ?>',
             type: "get",
             data: {'area': $('#area').val(), 'line': $('#line').val(), 'unit': $('#unit').val()},
             beforeSend: function () {
@@ -409,4 +407,6 @@
         $.mobile.loading('hide');
     }
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.mobile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

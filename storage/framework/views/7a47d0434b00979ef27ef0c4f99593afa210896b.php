@@ -7,10 +7,12 @@
     <link href="<?php echo e(URL::asset('css/font-awesome.min.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(URL::asset('css/jquery.dataTables.min.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(URL::asset('css/dropzone.css')); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo e(URL::asset('css/bootstrapDatepickr-1.0.0.css')); ?>" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="<?php echo e(asset(elixir('css/app.css'))); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <?php echo $__env->yieldPushContent('links'); ?>
 
 
 
@@ -129,11 +131,26 @@
                 -->
                 <a href="<?php echo e(route('products.fileselect')); ?>" class="list-group-item childlist">产品数据上传</a>
                 <a href="<?php echo e(route('products.shownosku')); ?>" class="list-group-item childlist">分配SKU</a>
-                <a href="<?php echo e(route('products.oracletest')); ?>" class="list-group-item childlist">Oracle Test</a>
             </div>
             <a href="#ebay" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i class="glyphicon glyphicon-shopping-cart"></i> EBAY操作 </a>
             <div class="collapse" id="ebay">
                 <a href="<?php echo e(route('ebay.index')); ?>" class="list-group-item childlist">Check SKU</a>
+            </div>
+
+            <a href="#storages" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="fa fa-object-group"></i>仓库管理</a>
+            <div class="collapse" id="storages">
+                <a href="<?php echo e(route('storages.locindex')); ?>" class="list-group-item childlist">库存位置管理</a>
+                <a href="<?php echo e(route('storages.itemindex')); ?>" class="list-group-item childlist">存储物品管理</a>
+                <a href="<?php echo e(route('storages.locitemindex')); ?>" class="list-group-item childlist">库位使用管理</a>
+                <a href="#" class="list-group-item childlist">库位使用查询</a>
+            </div>
+
+            <a href="#smartchannel" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="fa fa-object-group"></i>Smart Channel处理</a>
+            <div class="collapse" id="smartchannel">
+                <a href="<?php echo e(route('smartchannel.orderindex')); ?>" class="list-group-item childlist">订单处理</a>
+                <a href="<?php echo e(route('smartchannel.paymentindex')); ?>" class="list-group-item childlist">账单处理</a>
             </div>
 
             <!--
@@ -231,6 +248,7 @@
     <script type="text/javascript" src="<?php echo e(URL::asset('js/jquery.dataTables.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(URL::asset('js/jasny-bootstrap.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(URL::asset('js/multiselect.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo e(URL::asset('js/bootstrapDatepickr-1.0.0.js')); ?>"></script>
     <script type=""text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js">0</script>
 
 <?php echo $__env->yieldPushContent('scripts'); ?>

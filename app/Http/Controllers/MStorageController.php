@@ -32,6 +32,15 @@ class MStorageController extends Controller
         ]);
         return $this->mstorage->getNextLocData($request);
     }
+    public function getPrevLocdata(Request $request)
+    {
+        $this->validate($request, [
+            'area' => 'required',
+            'line' => 'required',
+            'unit' => 'required',
+        ]);
+        return $this->mstorage->getPrevLocData($request);
+    }
     public function getLocdata(Request $request)
     {
         $this->validate($request, [
@@ -67,5 +76,62 @@ class MStorageController extends Controller
             'id' => 'required',
         ]);
         return $this->mstorage->delLocitem($request->id);
+    }
+    public function addItem(Request $request)
+    {
+        $this->validate($request, [
+            'area' => 'required',
+            'line' => 'required',
+            'unit' => 'required',
+            'level' => 'required',
+            'goodsno' => 'required',
+            'colorcode' => 'required',
+        ]);
+        $result = $this->mstorage->addStorageItem($request);
+        switch ($result) {
+            case '-1':
+                $resp = "location not found";
+                break;
+            case '-2':
+                $resp = "goodsno not found";
+                break;
+            case '-3':
+                $resp = "colorcode not found";
+                break;
+            case 1:
+                $resp = "增加成功";
+                break;
+            default:
+                $resp = "Unknown Error";
+                break;
+        }
+        return $resp;
+    }
+    public function erpOptionIndex(Request $request)
+    {
+        return view('mobile.erpoptions');
+    }
+    public function erpLoadLocs(Request $request)
+    {
+        return $this->mstorage->loadLocationsFromErp();
+    }
+    public function erpUpdateItems(Request $request)
+    {
+        return $this->mstorage->updateStorageItemsToErp();
+    }
+    public function erpCheckItems(Request $request)
+    {
+        return $this->mstorage->checkErpStorageItems();
+    }
+    public function getItemLocations(Request $request)
+    {
+        $this->validate($request, [
+            'goodsno' => 'required',
+        ]);
+        $locs = $this->mstorage->getItemLocations($request);
+        if (empty($locs))
+            return null;
+        else
+            return $locs->toArray();
     }
 }
