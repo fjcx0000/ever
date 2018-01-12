@@ -21,12 +21,13 @@
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3.0",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^6.3",
         "pusher/pusher-php-server": "^2.3",
         "maatwebsite/excel": "^2.1",
         "zizaco/entrust": "1.7.*",
         "dts/ebay-sdk-php": "^9.0",
-        "yajra/laravel-oci8": "5.3.*"
+        "yajra/laravel-oci8": "5.3.*",
+        "rap2hpoutre/jacky": "^0.0.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

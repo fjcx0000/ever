@@ -31,7 +31,7 @@ return [
         */
         'settings' => [
 
-            'memoryCacheSize' => '32MB',
+            'memoryCacheSize' => '128MB',
             'cacheTime'       => 600
 
         ],
@@ -245,7 +245,7 @@ return [
             | Apply strict comparison when testing for null values in the array
             |--------------------------------------------------------------------------
             */
-            'strictNullComparison' => false
+            'strictNullComparison' => true
         ],
 
         /*
@@ -407,7 +407,7 @@ return [
         |
         */
 
-        'to_ascii'                => true,
+        'to_ascii'                => false,
 
         /*
         |--------------------------------------------------------------------------

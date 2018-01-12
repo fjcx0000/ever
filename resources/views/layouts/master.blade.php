@@ -136,6 +136,11 @@
             <div class="collapse" id="ebay">
                 <a href="{{ route('ebay.index')}}" class="list-group-item childlist">Check SKU</a>
             </div>
+            <a href="#assistant" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i class="glyphicon glyphicon-shopping-cart"></i> 工作协助操作 </a>
+            <div class="collapse" id="assistant">
+                <a href="{{ route('excel.index')}}" class="list-group-item childlist">Excel文件转换</a>
+                <a href="{{ route('excel.inventoryindex')}}" class="list-group-item childlist">零售渠道库存文件</a>
+            </div>
 
             <a href="#storages" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
                         class="fa fa-object-group"></i>仓库管理</a>

@@ -37,11 +37,16 @@ class MobileController extends Controller
 
         $qryStr = "%".$request->term."%";
 
-
         $goods = Oracle::table('goods')
             ->select('goodsno', 'goodsname')
-            ->where('goodsno','like', $qryStr)
-            ->orWhere('goodsname', 'like', $qryStr)
+            ->where([
+                ['status', '=', 1],
+                ['goodsno','like', $qryStr],
+            ])
+            ->orWhere([
+                ['status', '=', 1],
+                ['goodsname','like', $qryStr],
+            ])
             ->get();
         $goodslist = $goods->map(function($item, $key) {
             return $item->goodsno.'-'.$item->goodsname;

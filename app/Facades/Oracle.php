@@ -12,5 +12,5 @@ use Illuminate\Support\Facades\Facade;
 
 class Oracle extends Facade
 {
-    protected static function getFacadeAccessor() { return 'oracle'; }
+    protected static function getFacadeAccessor() { return 'myoracle'; }
 }

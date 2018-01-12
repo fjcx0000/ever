@@ -221,5 +221,14 @@ Route::group(['prefix' => 'mstorage'], function() {
     Route::post('/erpupdateitems', 'MStorageController@erpUpdateItems')->name('mstorage.erpupdateitems');
     Route::get('/erpcheckitems', 'MStorageController@erpCheckItems')->name('mstorage.erpcheckitems');
 
+});
 
+/**
+ * Excel Process
+ */
+Route::group(['prefix' => 'excel'], function() {
+    Route::get('/', 'ExcelController@index')->name('excel.index');
+    Route::post('/processfile', 'ExcelController@processFile')->name('excel.processfile');
+    Route::get('/inventoryindex', 'ExcelController@inventoryIndex')->name('excel.inventoryindex');
+    Route::post('/getinventory', 'ExcelController@getInventoryExcel')->name('excel.getinventory');
 });

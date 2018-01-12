@@ -154,10 +154,12 @@ return [
      
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Rap2hpoutre\Jacky\ServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -165,7 +167,7 @@ return [
         App\Providers\AccessServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
-        App\Providers\OracleServiceProvider::class,
+        App\Providers\MyOracleServiceProvider::class,
 
 
     ],
@@ -225,6 +227,8 @@ return [
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'Oracle'    => App\Facades\Oracle::class,
+        'Jacky' => Rap2hpoutre\Jacky\Facade::class,
+
     ],
 
 ];
